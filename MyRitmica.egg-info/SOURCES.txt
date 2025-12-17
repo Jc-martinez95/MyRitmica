@@ -1,6 +1,0 @@
-pyproject.toml
-MyRitmica.egg-info/PKG-INFO
-MyRitmica.egg-info/SOURCES.txt
-MyRitmica.egg-info/dependency_links.txt
-MyRitmica.egg-info/requires.txt
-MyRitmica.egg-info/top_level.txt
