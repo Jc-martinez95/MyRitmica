@@ -3,7 +3,7 @@ from pyglet.window import key
 from pyglet.app import exit
 from typing import List
 from .config import GAME_STATE_LEVELS, GAME_STATE_PLAYING, COLOR_SELECTED, COLOR_UNSELECTED
-from .media_manager import load_source
+from .media_manager import load_source, load_timestamps
 
 class Menu:
     def __init__(self, options: List['str'], font_size:int = 30, y_position:int = 2, y_separation: int = 50):
@@ -61,6 +61,7 @@ class MainMenu(Menu):
 
         if symbol == key.ENTER:
             if app.menu_selection == 0:
+                app.menu_selection = 0
                 app.game_state = GAME_STATE_LEVELS
             elif app.menu_selection == 1:
                 exit()
@@ -74,6 +75,7 @@ class LevelMenu(Menu):
         self.handle_menu_navigation(app, self.options, symbol, modifiers)
 
         if symbol == key.ENTER:
+            app.beat_timestamps = load_timestamps(app.menu_selection)
             app.game_state = GAME_STATE_PLAYING
             app.player.queue(load_source(app.menu_selection))
             app.player.play()

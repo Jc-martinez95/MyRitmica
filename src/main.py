@@ -74,7 +74,6 @@ class GameApp(pyglet.window.Window):
 
         
     def update(self, dt):
-
         if self.game_state == GAME_STATE_PLAYING and not self.is_checker_scheduled:
             # Programar la verificación de beats para que se ejecute continuamente (60 veces por segundo)
             pyglet.clock.schedule_interval(beat_checker, 1/60.0, self)

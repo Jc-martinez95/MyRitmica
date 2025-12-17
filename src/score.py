@@ -9,6 +9,7 @@ def on_video_end(app: 'GameApp') -> Callable:
         app.game_state = GAME_STATE_SCORE
         app.final_score = final_score_label(app)
     return video_end_handler
+
 def final_score_label(app: 'GameApp') -> Label:
 
     score_percentage = (app.hits / app.total_beats) * 100
