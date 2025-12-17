@@ -1,0 +1,4 @@
+.venv/
+/assets/_video_level_beats/
+MyRitmica.egg-info
+uv.lock
