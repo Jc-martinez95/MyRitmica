@@ -7,7 +7,7 @@ from .config import ASSETS_PATH
 beat_timestamps_path = f'{ASSETS_PATH}/beat_timestamps'
 
 def load_source(level_index: int) -> Optional[media.StreamingSource]:
-    video_filename = f'video_levels/Ex{level_index}.ogg'
+    video_filename = f'video_levels/Ex{level_index}.mp4'
     source = resource.media(video_filename, streaming=True)
     return source
 

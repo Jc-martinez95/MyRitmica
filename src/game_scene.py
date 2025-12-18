@@ -6,12 +6,12 @@ if TYPE_CHECKING:
     from.main import GameApp
 
 def beat_checker(dt, app: 'GameApp'):
+    if app.game_state != GAME_STATE_PLAYING:
+        pyglet.clock.unschedule(beat_checker)
+        return
     app.total_beats = len(app.beat_timestamps)
     if app.last_checked_beat_index >= app.total_beats:
         app.active_beat = False
-        return
-    if app.game_state != GAME_STATE_PLAYING:
-        pyglet.clock.unschedule(beat_checker)
         return
     
     current_time = app.player.time
@@ -28,7 +28,7 @@ def beat_checker(dt, app: 'GameApp'):
         app.active_beat = False
 
     # print(f'beat_timestamp:{app.beat_timestamps[app.last_checked_beat_index]}. current_time:{round(app.player.time,3)}. Active_beat:{app.active_beat}')
-    print(f'total_beats{app.total_beats}. current_beat_index: {app.last_checked_beat_index}')
+    # print(f'total_beats{app.total_beats}. current_beat_index: {app.last_checked_beat_index}')
     
 def hit_score_logic(app: 'GameApp', symbol, modifiers):
     

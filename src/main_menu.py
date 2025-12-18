@@ -1,9 +1,11 @@
 from pyglet.text import Label
 from pyglet.window import key
 from pyglet.app import exit
+from pyglet.media import Player
 from typing import List
-from .config import GAME_STATE_LEVELS, GAME_STATE_PLAYING, COLOR_SELECTED, COLOR_UNSELECTED
+from .config import *
 from .media_manager import load_source, load_timestamps
+from .score import on_video_end
 
 class Menu:
     def __init__(self, options: List['str'], font_size:int = 30, y_position:int = 2, y_separation: int = 50):
@@ -79,3 +81,24 @@ class LevelMenu(Menu):
             app.game_state = GAME_STATE_PLAYING
             app.player.queue(load_source(app.menu_selection))
             app.player.play()
+
+class PauseMenu(Menu):
+    def __init__(self,**kwargs):
+        self.options = ['CONTINUAR','SALIR AL MENÚ']
+
+        super().__init__(options = self.options, **kwargs)
+    def handle_pause_menu_navigation(self, app: 'GameApp', symbol, modifiers) -> None:
+        self.handle_menu_navigation(app, self.options, symbol, modifiers)
+        
+        if symbol == key.ENTER:
+            if app.menu_selection == 0:
+                app.game_state = GAME_STATE_PLAYING
+                app.player.play()
+            elif app.menu_selection == 1:
+                app.player.delete()
+                app.player = Player()
+                app.player.push_handlers(on_eos=on_video_end(app))
+                app.reset_game_state()
+                app.menu_selection = 0
+                app.game_state = GAME_STATE_MENU
+                

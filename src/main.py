@@ -1,7 +1,7 @@
 import os
 import pyglet
 from .config import *
-from .main_menu import MainMenu, LevelMenu
+from .main_menu import MainMenu, LevelMenu, PauseMenu
 from .game_scene import *
 from .media_manager import hit_sound, load_timestamps
 from .score import final_score_label, on_video_end
@@ -17,6 +17,7 @@ class GameApp(pyglet.window.Window):
         self.game_state = GAME_STATE_MENU
         self.menu = MainMenu(title= 'My juego rítmico',title_font_size= 60)
         self.levels = LevelMenu(y_position= 1.2, y_separation= 70)
+        self.pause = PauseMenu()
         self.menu_selection = 0
         self.level = 0
         self.player = pyglet.media.Player()
@@ -38,6 +39,7 @@ class GameApp(pyglet.window.Window):
         self.hits = 0
         self.misses = 0
         self.last_checked_beat_index = 0
+        self.active_beat = False
         if self.hit_feedback_message:
             self.hit_feedback_message.delete()
             self.hit_feedback_message = None
@@ -58,8 +60,16 @@ class GameApp(pyglet.window.Window):
                 self.hit_feedback_message.draw()
         elif self.game_state == GAME_STATE_SCORE:
             self.final_score.draw()
+        elif self.game_state == GAME_STATE_PAUSE:
+            self.pause.draw_menu_options(self)
+        
        
     def on_key_press(self, symbol, modifiers):
+        if symbol == pyglet.window.key.P:
+            self.menu_selection = 0
+            self.game_state = GAME_STATE_PAUSE
+            self.player.pause()
+        
         if self.game_state == GAME_STATE_MENU:
             self.menu.handle_main_menu_navigation(self, symbol, modifiers)
         elif self.game_state == GAME_STATE_LEVELS:
@@ -71,6 +81,8 @@ class GameApp(pyglet.window.Window):
         elif self.game_state == GAME_STATE_SCORE:
             self.reset_game_state()
             self.game_state = GAME_STATE_MENU
+        elif self.game_state == GAME_STATE_PAUSE:
+            self.pause.handle_pause_menu_navigation(self, symbol, modifiers)
 
         
     def update(self, dt):
