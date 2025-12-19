@@ -1,6 +1,6 @@
 import pyglet
 import time
-from .config import HIT_FEEDBACK_DURATION, GAME_STATE_PLAYING, COLOR_HIT, COLOR_MISS, FRAME_RATE
+from .config import HIT_FEEDBACK_DURATION, GAME_STATE_PLAYING, COLOR_HIT, COLOR_MISS
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from.main import GameApp

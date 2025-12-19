@@ -1,7 +1,7 @@
 import os
 import pyglet
 from .config import *
-from .main_menu import MainMenu, LevelMenu, PauseMenu
+from .menu import MainMenu, LevelMenu, PauseMenu
 from .game_scene import *
 from .media_manager import hit_sound, load_timestamps
 from .score import final_score_label, on_video_end
@@ -35,6 +35,7 @@ class GameApp(pyglet.window.Window):
         self.player.push_handlers(on_eos = on_video_end(self))
         self.active_beat = 0
         self.is_checker_scheduled = False
+        
     def reset_game_state(self):
         self.hits = 0
         self.misses = 0
@@ -46,6 +47,7 @@ class GameApp(pyglet.window.Window):
         if self.final_score:
             self.final_score.delete()
             self.final_score = None
+
     def on_draw(self):
         self.clear()
         if self.game_state == GAME_STATE_MENU:

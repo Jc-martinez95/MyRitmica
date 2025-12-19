@@ -2,10 +2,12 @@ from pyglet.text import Label
 from pyglet.window import key
 from pyglet.app import exit
 from pyglet.media import Player
-from typing import List
+from typing import List, TYPE_CHECKING
 from .config import *
 from .media_manager import load_source, load_timestamps
 from .score import on_video_end
+if TYPE_CHECKING:
+    from.main import GameApp
 
 class Menu:
     def __init__(self, options: List['str'], font_size:int = 30, y_position:int = 2, y_separation: int = 50):

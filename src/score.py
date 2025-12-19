@@ -1,6 +1,9 @@
 from pyglet.text import Label
 from collections.abc import Callable
 from .config import GAME_STATE_SCORE
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from.main import GameApp
 
 def on_video_end(app: 'GameApp') -> Callable:
 
