@@ -1,6 +1,6 @@
 from pyglet.text import Label
 from collections.abc import Callable
-from .config import GAME_STATE_SCORE
+from .config import GAME_STATE_SCORE, GAME_STATE_PLAYING
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from.main import GameApp
@@ -9,7 +9,8 @@ def on_video_end(app: 'GameApp') -> Callable:
 
     def video_end_handler():
         app.misses += app.total_beats - app.hits
-        app.game_state = GAME_STATE_SCORE
+        if app.game_state == GAME_STATE_PLAYING:
+            app.game_state = GAME_STATE_SCORE
         app.final_score = final_score_label(app)
     return video_end_handler
 

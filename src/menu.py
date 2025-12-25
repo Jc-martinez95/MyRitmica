@@ -20,14 +20,14 @@ class Menu:
         
         for i, option in enumerate(self.options):
             option_color = COLOR_SELECTED if i == app.menu_selection else COLOR_UNSELECTED
-            option_label = Label(
+            self.option_label = Label(
                 option,
                 font_size = self.font_size,
                 x = app.width // 2.5,
                 y = app.height // self.y_position - (i * self.y_separation),
                 color = option_color
             )
-            option_label.draw()
+            self.option_label.draw()
 
 
     def handle_menu_navigation(self, app: 'GameApp', options, symbol, modifiers) -> None:
@@ -76,7 +76,20 @@ class LevelMenu(Menu):
         
         super().__init__(options = self.options,**kwargs)
     def handle_level_menu_navigation(self, app: 'GameApp', symbol, modifiers) -> None:
-        self.handle_menu_navigation(app, self.options, symbol, modifiers)
+        if symbol == key.DOWN:
+            if app.menu_selection >= len(self.options) -1:
+                app.menu_selection = len(self.options) -1
+            else:
+                app.menu_selection = (app.menu_selection +1)
+                self.y_position -= Y_SCROLL_VEL 
+            print(app.menu_selection)
+        elif symbol == key.UP:
+            if app.menu_selection > 0:
+                app.menu_selection = (app.menu_selection - 1)
+                self.y_position += Y_SCROLL_VEL
+            elif app.menu_selection < 0:
+                app.menu_selection = 0
+            print(app.menu_selection)
 
         if symbol == key.ENTER:
             app.beat_timestamps = load_timestamps(app.menu_selection)
@@ -90,7 +103,7 @@ class PauseMenu(Menu):
 
         super().__init__(options = self.options, **kwargs)
     def handle_pause_menu_navigation(self, app: 'GameApp', symbol, modifiers) -> None:
-        self.handle_menu_navigation(app, self.options, symbol, modifiers)
+        
         
         if symbol == key.ENTER:
             if app.menu_selection == 0:
